@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handball Matchday Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Matchday Graphic Generator</h1>
+
+    <div class="main-container">
+        <div class="controls">
+
+            <!-- KATEGORIE 1: TITEL, TEXT & SPIELERFOTO -->
+            <div class="accordion-item active">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>1. Titel, Text & Spieler-Foto</span>
+                    <span class="material-icons icon-toggle">expand_more</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label>Titel / Spielart</label>
+                        <input type="text" id="input-title" value="HEIMSPIEL">
+                    </div>
+
+                    <hr class="separator">
+
+                    <div class="form-group">
+                        <label>Schnellauswahl Spieler / Mannschaftsfoto</label>
+                        <select id="select-player" onchange="applyPlayerSelection()">
+                            <option value="base.png">Standard (base.png)</option>
+                            <option value="players/spieler1.png|Max Mustermann">Spieler 1 (players/spieler1.png)
+                            </option>
+                            <option value="players/spieler2.png|Lukas Schmidt">Spieler 2 (players/spieler2.png)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Oder Eigenes Bild Hochladen</label>
+                        <input type="file" id="input-player-img" accept="image/*">
+                    </div>
+                </div>
+            </div>
+
+            <!-- KATEGORIE 2: TEAMS & LOGOS -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>2. Teams & Logos</span>
+                    <span class="material-icons icon-toggle">expand_more</span>
+                </button>
+                <div class="accordion-content">
+
+                    <div class="form-group">
+                        <label>Schnellauswahl Heimteam</label>
+                        <select id="select-home-team" onchange="applyTeamSelection('home')">
+                            <option value="">-- Manuell wählen --</option>
+                            <option value="TuS Neuhofen|neuhofen.png">TuS Neuhofen</option>
+                            <option value="HSG Landau/Land 2|landau.png">HSG Landau/Land 2</option>
+                            <option value="MSG Iggelheim/Meckenheim 2|luchse.png" selected>MSG Iggelheim/Meckenheim 2
+                            </option>
+                            <option value="MSG Niederfeld/Oggersheim|niederfeld.png">MSG Niederfeld/Oggersheim</option>
+                            <option value="TS Rodalben|rodalben.png">TS Rodalben</option>
+                            <option value="MSG Mundenheim/Rheingönheim|mundenheim.png">MSG Mundenheim/Rheingönheim
+                            </option>
+                            <option value="TG Waldsee 2|waldsee.png">TG Waldsee 2</option>
+                            <option value="Südpfalztiger 3|obzk.png">Südpfalztiger 3</option>
+                            <option value="TSV Speyer 2|speyer.png">TSV Speyer 2</option>
+                            <option value="HSG Lingenfeld/Schwegenheim|lingenfeld.png">HSG Lingenfeld/Schwegenheim
+                            </option>
+                            <option value="HSG Trifels|trifels.png">HSG Trifels</option>
+                            <option value="TV Offenbach 2|offenbach.png">TV Offenbach 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Heimteam Name & Logo (Upload)</label>
+                        <input type="text" id="input-home-name" value="MSG IGGELHEIM/MECKENHEIM 2">
+                        <input type="file" id="input-home-logo" accept="image/*" class="file-input-margin">
+                    </div>
+
+                    <hr class="separator">
+
+                    <div class="form-group">
+                        <label>Schnellauswahl Gastteam</label>
+                        <select id="select-away-team" onchange="applyTeamSelection('away')">
+                            <option value="">-- Manuell wählen --</option>
+                            <option value="TuS Neuhofen|neuhofen.png">TuS Neuhofen</option>
+                            <option value="HSG Landau/Land 2|landau.png" selected>HSG Landau/Land 2</option>
+                            <option value="MSG Iggelheim/Meckenheim 2|luchse.png">MSG Iggelheim/Meckenheim 2</option>
+                            <option value="MSG Niederfeld/Oggersheim|niederfeld.png">MSG Niederfeld/Oggersheim</option>
+                            <option value="TS Rodalben|rodalben.png">TS Rodalben</option>
+                            <option value="MSG Mundenheim/Rheingönheim|mundenheim.png">MSG Mundenheim/Rheingönheim
+                            </option>
+                            <option value="TG Waldsee 2|waldsee.png">TG Waldsee 2</option>
+                            <option value="Südpfalztiger 3|obzk.png">Südpfalztiger 3</option>
+                            <option value="TSV Speyer 2|speyer.png">TSV Speyer 2</option>
+                            <option value="HSG Lingenfeld/Schwegenheim|lingenfeld.png">HSG Lingenfeld/Schwegenheim
+                            </option>
+                            <option value="HSG Trifels|trifels.png">HSG Trifels</option>
+                            <option value="TV Offenbach 2|offenbach.png">TV Offenbach 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Auswärtsteam Name & Logo (Upload)</label>
+                        <input type="text" id="input-away-name" value="HSG LANDAU/LAND 2">
+                        <input type="file" id="input-away-logo" accept="image/*" class="file-input-margin">
+                    </div>
+                </div>
+            </div>
+
+            <!-- KATEGORIE 3: SPIEL-INFOS & ERGEBNIS -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>3. Spiel-Infos</span>
+                    <span class="material-icons icon-toggle">expand_more</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label>Datum</label>
+                        <input type="text" id="input-date" value="06.09.2026">
+                    </div>
+                    <div class="form-group">
+                        <label>Anwurfzeit</label>
+                        <input type="text" id="input-time" value="16:00 UHR">
+                    </div>
+                    <div class="form-group">
+                        <label>Halle / Spielort</label>
+                        <input type="text" id="input-location" value="Wahagnieshalle">
+                    </div>
+
+                    <hr class="separator">
+
+                    <!-- ERGEBNIS INPUTS (DAUERHAFT SICHTBAR) -->
+                    <div class="form-group">
+                        <label>Ergebnis (Heim : Gast)</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="input-home-score" value="" placeholder="Heim"
+                                style="text-align: center;" oninput="updateScoreDisplay()">
+                            <span style="font-weight: bold; font-size: 1.2rem;">:</span>
+                            <input type="text" id="input-away-score" value="" placeholder="Gast"
+                                style="text-align: center;" oninput="updateScoreDisplay()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-download" onclick="downloadGraphic()">Grafik Herunterladen (PNG)</button>
+        </div>
+
+        <div class="preview-wrapper">
+            <div id="matchday-card">
+                <div class="player-layer">
+                    <img id="display-player-img" src="base.png" alt="Featured Team/Player">
+                </div>
+
+                <div class="bg-overlay"></div>
+
+                <div id="block-title" class="movable-element">
+                    <div class="header-title">
+                        <h1 class="main-matchday">MATCHDAY</h1>
+                        <h2 id="display-title">HEIMSPIEL</h2>
+                        <div class="hashtag">#lossemasbrenne</div>
+                    </div>
+                </div>
+
+                <div id="block-teams" class="movable-element">
+                    <div class="team-box">
+                        <div class="logo-frame" id="frame-home-logo">
+                            <img id="display-home-logo" src="logos/luchse.png" alt="Heim Logo">
+                        </div>
+                        <div class="team-name" id="display-home-name">MSG IGGELHEIM/MECKENHEIM 2</div>
+                    </div>
+
+                    <div class="vs-container" style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="vs-badge">VS.</div>
+                        <div id="display-score" class="score-badge"></div>
+                    </div>
+
+                    <div class="team-box">
+                        <div class="logo-frame" id="frame-away-logo">
+                            <img id="display-away-logo" src="logos/landau.png" alt="Gast Logo">
+                        </div>
+                        <div class="team-name" id="display-away-name">HSG LANDAU/LAND 2</div>
+                    </div>
+                </div>
+
+                <div id="block-info" class="movable-element">
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="material-icons">location_on</span>
+                            <span class="info-label">HALLE</span>
+                        </div>
+                        <span class="info-value" id="display-location">Wahagnieshalle</span>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="material-icons">event</span>
+                            <span class="info-label">DATUM</span>
+                        </div>
+                        <span class="info-value" id="display-date">06.09.2026</span>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="material-icons">schedule</span>
+                            <span class="info-label">ANWURF</span>
+                        </div>
+                        <span class="info-value" id="display-time">16:00 UHR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+<!--by Tim-->
