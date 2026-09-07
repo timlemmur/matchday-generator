@@ -125,7 +125,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
 }
 
 .logo-frame img {
@@ -219,3 +219,21 @@
     margin-top: 2px;
 }
 
+/* --- DYNAMISCHES DESIGN OHNE INFOBAR --- */
+
+/* 1. Teams & Logos weiter nach unten setzen, wenn die Infobar fehlt */
+#matchday-card.no-infobar #block-teams {
+    bottom: 25px; /* Rutscht von 90px auf 25px nach unten */
+    transition: bottom 0.3s ease;
+}
+
+/* 2. Den unteren dunklen Fadeout sanfter machen */
+#matchday-card.no-infobar .bg-overlay {
+    background: linear-gradient(
+        180deg, 
+        rgba(8, 13, 20, 0.95) 0%, 
+        rgba(8, 13, 20, 0.10) 20%, 
+        rgba(8, 13, 20, 0.10) 65%, 
+        rgba(8, 13, 20, 0.70) 100% /* Von 0.95 auf 0.70 reduziert für weicheres Auslaufen */
+    );
+}
