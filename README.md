@@ -3,4 +3,4 @@ Simple tool to create matchday cards for Instagram (1x1) ~ @SGIggelheim/Meckenhe
 
 Try it: https://timlemmur.github.io/matchday-generator/
 
-current: v1.2 (03.09.26)
+current: v1.3 (08.09.26)
