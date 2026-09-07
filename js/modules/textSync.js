@@ -18,6 +18,24 @@ export const initTextSync = () => {
     bindTextSync('input-time', 'display-time', v => v.toUpperCase());
     bindTextSync('input-hall', 'display-hall');
 
+    // --- AUTOMATISCHES AKTUELLES DATUM (HEUTE) ---
+    const textDateInput = document.getElementById('input-date');
+    const displayDate = document.getElementById('display-date');
+
+    if (textDateInput) {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const formattedToday = `${day}.${month}.${year}`;
+
+        // Standardwerte in Input & Vorschau setzen
+        textDateInput.value = formattedToday;
+        if (displayDate) {
+            displayDate.textContent = formattedToday;
+        }
+    }
+
     // Spielart Dropdown
     const selectTitle = document.getElementById('select-title');
     if (selectTitle) {
@@ -30,7 +48,6 @@ export const initTextSync = () => {
     }
 
     // VERSTECKTER DATUM-PICKER LOGIK
-    const textDateInput = document.getElementById('input-date');
     const hiddenDatePicker = document.getElementById('hidden-date-picker');
 
     document.getElementById('btn-date-picker')?.addEventListener('click', () => {
@@ -69,4 +86,20 @@ export const initTextSync = () => {
             textTimeInput.dispatchEvent(new Event('input')); // Triggert Vorschau-Update
         }
     });
+
+    // TOGGLE LOGIK FÜR INFOBAR
+    const toggleInfobar = document.getElementById('toggle-infobar');
+    const blockInfo = document.getElementById('block-info');
+    const matchdayCard = document.getElementById('matchday-card');
+
+    if (toggleInfobar && matchdayCard && blockInfo) {
+        const updateInfobarState = () => {
+            const isChecked = toggleInfobar.checked;
+            blockInfo.style.display = isChecked ? 'flex' : 'none';
+            matchdayCard.classList.toggle('no-infobar', !isChecked);
+        };
+
+        updateInfobarState();
+        toggleInfobar.addEventListener('change', updateInfobarState);
+    }
 };
