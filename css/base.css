@@ -46,3 +46,27 @@ h1 {
     pointer-events: none;
     z-index: 100;
 }
+
+.github-link {
+    position: fixed;
+    bottom: 12px;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-family: sans-serif;
+    z-index: 100;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.github-link:hover {
+    color: #00a8ff;
+}
+
+.github-icon {
+    width: 24px;
+    height: 24px;
+}
